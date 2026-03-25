@@ -336,7 +336,6 @@ void clear_all() {
     }
 }
 
-// Сохранение в текстовый файл
 void save_to_file() {
     char filename[100];
     printf("Введите имя файла для сохранения: ");
@@ -347,11 +346,8 @@ void save_to_file() {
         printf("Ошибка при открытии файла для записи!\n");
         return;
     }
-    
-    // Сохраняем количество заказов
     fprintf(file, "%d\n", order_count);
     
-    // Сохраняем все заказы
     for (int i = 0; i < order_count; i++) {
         fprintf(file, "%d\n", orders[i].number);
         fprintf(file, "%s\n", orders[i].product);
@@ -364,7 +360,6 @@ void save_to_file() {
     printf("Заказы сохранены в файл %s\n", filename);
 }
 
-// Загрузка из текстового файла
 void load_from_file() {
     char filename[100];
     printf("Введите имя файла для загрузки: ");
@@ -380,7 +375,6 @@ void load_from_file() {
     fscanf(file, "%d", &new_count);
     
     if (new_count > capacity) {
-        // Если нужно больше места, пересоздаем массив
         free(orders);
         init_array(new_count);
     } else if (new_count == 0) {
@@ -393,7 +387,6 @@ void load_from_file() {
         return;
     }
     
-    // Загружаем заказы
     order_count = new_count;
     for (int i = 0; i < order_count; i++) {
         fscanf(file, "%d", &orders[i].number);
@@ -402,8 +395,6 @@ void load_from_file() {
         fscanf(file, "%f", &orders[i].price);
         fscanf(file, "%f", &orders[i].total);
     }
-    
-    // Обновляем next_order_number
     if (order_count > 0) {
         next_order_number = orders[order_count - 1].number + 1;
     } else {
@@ -413,8 +404,6 @@ void load_from_file() {
     fclose(file);
     printf("Загружено %d заказов из файла %s\n", order_count, filename);
 }
-
-// Сохранение перед выходом
 void save_on_exit() {
     if (order_count > 0) {
         char choice;
